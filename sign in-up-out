@@ -1,0 +1,100 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#define MAX 50
+
+void signUp();
+int signIn();
+void signOut();
+
+const char *filename = "users.txt";
+
+//remember to put this section on the bottom after finishing the project
+int main() {
+    int choice, loggedIn = 0;
+
+    while (1) {
+        printf("\nLibrary Management System\n");
+        printf("1. Sign Up\n");
+        printf("2. Sign In\n");
+        printf("3. Sign Out\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                signUp();
+                break;
+            case 2:
+                loggedIn = signIn();
+                break;
+            case 3:
+                if (loggedIn) {
+                    signOut();
+                    loggedIn = 0;
+                } else {
+                    printf("\nYou are not signed in!\n");
+                }
+                break;
+            case 4:
+                exit(0);
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    }
+    return 0;
+}
+
+//problem: can't check if the user name already exits
+void signUp() {
+    char username[MAX], password[MAX];
+    FILE *file = fopen(filename, "a");
+
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    printf("\nEnter a new username: ");
+    scanf("%s", username);
+    printf("Enter a new password: ");
+    scanf("%s", password);
+
+    fprintf(file, "%s %s\n", username, password);
+    fclose(file);
+
+    printf("Sign up successful! You can now sign in.\n");
+}
+
+//problem: does not store previous data
+int signIn() {
+    char username[MAX], password[MAX], fileUser[MAX], filePass[MAX];
+    FILE *file = fopen(filename, "r");
+
+    if (file == NULL) {
+        printf("No users found! Please sign up first.\n");
+        return 0;
+    }
+
+    printf("\nEnter your username: ");
+    scanf("%s", username);
+    printf("Enter your password: ");
+    scanf("%s", password);
+
+    while (fscanf(file, "%s %s", fileUser, filePass) != EOF) {
+        if (strcmp(username, fileUser) == 0 && strcmp(password, filePass) == 0) {
+            printf("Sign in successful! Welcome, %s.\n", username);
+            fclose(file);
+            return 1;
+        }
+    }
+
+    fclose(file);
+    printf("Invalid username or password. Please try again.\n");
+    return 0;
+}
+
+void signOut() {
+    printf("\nYou have been signed out successfully.\n");
+}
