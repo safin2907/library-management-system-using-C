@@ -1,10 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-// Define the maximum number of books in the library
 #define MAX_BOOKS 100
 
-// Structure to store book information
 typedef struct {
     int id;
     char title[50];
@@ -13,11 +11,9 @@ typedef struct {
     char borrower[50];
 } Book;
 
-// Global array of books
 Book library[MAX_BOOKS];
 int totalBooks = 0;
 
-// Function to check out a book
 void checkOutBook() {
     int bookID;
     char borrowerName[50];
@@ -25,7 +21,6 @@ void checkOutBook() {
     printf("Enter Book ID to check out: ");
     scanf("%d", &bookID);
 
-    // Search for the book by ID
     for (int i = 0; i < totalBooks; i++) {
         if (library[i].id == bookID) {
             if (library[i].isAvailable) {
@@ -43,14 +38,12 @@ void checkOutBook() {
     printf("Book with ID %d not found.\n", bookID);
 }
 
-// Function to check in a book
 void checkInBook() {
     int bookID;
 
     printf("Enter Book ID to check in: ");
     scanf("%d", &bookID);
 
-    // Search for the book by ID
     for (int i = 0; i < totalBooks; i++) {
         if (library[i].id == bookID) {
             if (!library[i].isAvailable) {
@@ -66,7 +59,6 @@ void checkInBook() {
     printf("Book with ID %d not found.\n", bookID);
 }
 
-// Function to display all books in the library
 void displayBooks() {
     printf("\n%-5s %-30s %-30s %-15s\n", "ID", "Title", "Author", "Status");
     printf("---------------------------------------------------------------\n");
@@ -76,7 +68,6 @@ void displayBooks() {
     }
 }
 
-// Function to display only available books
 void displayAvailableBooks() {
     int availableCount = 0;
     printf("\nAvailable Books:\n");
@@ -93,7 +84,6 @@ void displayAvailableBooks() {
     }
 }
 
-// Function to add sample books to the library
 void addSampleBooks() {
     strcpy(library[0].title, "C Programming Language");
     strcpy(library[0].author, "Kernighan & Ritchie");
@@ -113,7 +103,7 @@ void addSampleBooks() {
     totalBooks = 3;
 }
 
-// Main function
+//merge this later on!!!
 int main() {
     int choice;
     addSampleBooks();
