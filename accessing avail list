@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <string.h>
-
 #define MAX_BOOKS 100
 
 typedef struct {
     int id;
     char title[50];
     char author[50];
-    int isAvailable;  // 1 if available, 0 if checked out
+    int isAvailable;
     char borrower[50];
 } Book;
 
@@ -98,7 +97,7 @@ void addSampleBooks() {
     strcpy(library[2].title, "The Pragmatic Programmer");
     strcpy(library[2].author, "Andrew Hunt & David Thomas");
     library[2].id = 3;
-    library[2].isAvailable = 0; // Checked out
+    library[2].isAvailable = 0; 
 
     totalBooks = 3;
 }
