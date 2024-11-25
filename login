@@ -1,0 +1,85 @@
+// Function for login
+void login() {
+    printf("----------main menu----------\n\n");
+    int choice;
+    printf("(SignUp = 1, SignIn = 2, SignOut = 3)\nEnter choice: \n");
+    scanf("%d", &choice);
+
+    switch(choice) {
+        case 1:
+            signup();
+            break;
+        case 2:
+            signin();
+            break;
+        case 3:
+            signout();
+            break;
+        default:
+            printf("Invalid choice. Try again.\n");
+    }
+}
+
+// Function for user signup
+void signup() {
+    char username[MAX], password[MAX];
+    FILE *file = fopen(filename, "a");
+
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    printf("\nEnter a new username: ");
+    scanf("%s", username);
+    printf("Enter a new password: ");
+    scanf("%s", password);
+
+    // Write the credentials to the file
+    fprintf(file, "%s %s\n", username, password);
+    fclose(file);
+
+    printf("Sign up successful! You can now sign in.\n");
+    signin();
+}
+
+// Function for user signin
+void signin() {
+    char username[MAX], password[MAX], fileUser[MAX], filePass[MAX];
+    FILE *file = fopen(filename, "r");
+
+    if (file == NULL) {
+        printf("No users found! Please sign up first.\n");
+        return;
+    }
+
+    printf("\nEnter your username: ");
+    scanf("%s", username);
+    printf("Enter your password: ");
+    scanf("%s", password);
+
+    // Check credentials from the file
+    while (fscanf(file, "%s %s", fileUser, filePass) != EOF) {
+        if (strcmp(username, fileUser) == 0 && strcmp(password, filePass) == 0) {
+            printf("Sign in successful! Welcome, %s.\n", username);
+            fclose(file);
+
+            // Call the appropriate function based on the username
+            if (strcmp(username, "admin") == 0) {
+                admin();
+            } else {
+                student(); // Assume all other users are students
+            }
+            return;
+        }
+    }
+
+    fclose(file);
+    printf("Invalid username or password. Please try again.\n");
+}
+
+
+// Function to sign out the user
+void signout() {
+    printf("\nYou have been signed out successfully.\n");
+}
