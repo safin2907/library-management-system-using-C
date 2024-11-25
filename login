@@ -20,7 +20,6 @@ void login() {
     }
 }
 
-// Function for user signup
 void signup() {
     char username[MAX], password[MAX];
     FILE *file = fopen(filename, "a");
@@ -40,11 +39,10 @@ void signup() {
     fclose(file);
 
     printf("Sign up successful! You can now sign in.\n");
-    signin();
+    signin(username, password);  // Pass the signup credentials to signin()
 }
 
-// Function for user signin
-void signin() {
+void signin(char* signupUsername, char* signupPassword) {
     char username[MAX], password[MAX], fileUser[MAX], filePass[MAX];
     FILE *file = fopen(filename, "r");
 
@@ -64,11 +62,11 @@ void signin() {
             printf("Sign in successful! Welcome, %s.\n", username);
             fclose(file);
 
-            // Call the appropriate function based on the username
-            if (strcmp(username, "admin") == 0) {
-                admin();
+            // Validate against signup credentials
+            if (strcmp(username, signupUsername) == 0 && strcmp(password, signupPassword) == 0) {
+                student(); // Call student function if the credentials match
             } else {
-                student(); // Assume all other users are students
+                printf("Unauthorized access attempt.\n");
             }
             return;
         }
@@ -77,7 +75,6 @@ void signin() {
     fclose(file);
     printf("Invalid username or password. Please try again.\n");
 }
-
 
 // Function to sign out the user
 void signout() {
