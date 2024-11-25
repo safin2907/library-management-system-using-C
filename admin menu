@@ -1,0 +1,47 @@
+void admin() {
+    char username[50], password[50];
+
+    printf("\n-----Admin Login-----\n\n");
+    printf("Enter Username: ");
+    scanf("%s", username);
+    printf("Enter Password: ");
+    scanf("%s", password);
+
+    // Hardcoded credentials for simplicity
+    if (strcmp(username, "admin") == 0 && strcmp(password, "admin123") == 0) {
+        printf("\nAccess Granted!\n");
+        adminmenu();
+    } else {
+        printf("\nAccess Denied! Invalid credentials.\n");
+    }
+}
+
+void adminmenu() {
+    int admin_choice;
+
+    printf("\n-----Admin Menu-----\n\n");
+    printf("1. View All Records\n");
+    printf("2. Add New Record\n");
+    printf("3. Delete Record\n");
+    printf("4. Logout\n");
+
+    printf("Enter your choice: ");
+    scanf("%d", &admin_choice);
+
+    switch (admin_choice) {
+        case 1:
+            printf("Viewing all records...\n");
+            break;
+        case 2:
+            printf("Adding new record...\n");
+            break;
+        case 3:
+            printf("Deleting record...\n");
+            break;
+        case 4:
+            signout();
+            break;
+        default:
+            printf("Invalid choice!\n");
+    }
+}
