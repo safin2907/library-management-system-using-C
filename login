@@ -60,6 +60,7 @@ void signin(char* signupUsername, char* signupPassword) {
     while (fscanf(file, "%s %s", fileUser, filePass) != EOF) {
         if (strcmp(username, fileUser) == 0 && strcmp(password, filePass) == 0) {
             printf("Sign in successful! Welcome, %s.\n", username);
+            admin():
             fclose(file);
 
             // Validate against signup credentials
