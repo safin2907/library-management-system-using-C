@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX 50
+#define MAX_BOOKS 100
+
+void signup();
+void signin();
+void signout();
+void login();
+void admin();
+void student();
+void adminmenu();
+void studentmenu();
+// File path to store user credentials
+const char *filename = "users.txt";
+
+int main() {
+    login();
+    return 0;
+}
