@@ -1,5 +1,5 @@
 //Function for adding books
-void addBook(int id, char *title, char *author, int isAvailable) {
+void addbook(int id, char *title, char *author, int isAvailable) {
     if (totalBooks < MAX_BOOKS) {
         books[totalBooks].id = id;
         strcpy(books[totalBooks].title, title);
@@ -13,7 +13,7 @@ void addBook(int id, char *title, char *author, int isAvailable) {
 }
 
 //function for removing books
-void removeBook(int bookid) {
+void removebook(int bookid) {
     int bookFound = 0;
     for (int i = 0; i < totalBooks; i++) {
         if (books[i].id == bookid) {
