@@ -1,0 +1,34 @@
+//Function for adding books
+void addBook(int id, char *title, char *author, int isAvailable) {
+    if (totalBooks < MAX_BOOKS) {
+        books[totalBooks].id = id;
+        strcpy(books[totalBooks].title, title);
+        strcpy(books[totalBooks].author, author);
+        books[totalBooks].isAvailable = isAvailable;
+        totalBooks++;
+        printf("Book '%s' added successfully!\n", title);
+    } else {
+        printf("Book list is full!\n");
+    }
+}
+
+//function for removing books
+void removeBook(int bookid) {
+    int bookFound = 0;
+    for (int i = 0; i < totalBooks; i++) {
+        if (books[i].id == bookid) {
+            bookFound = 1;
+            // Shift all books after the found book to the left
+            for (int j = i; j < totalBooks - 1; j++) {
+                books[j] = books[j + 1];
+            }
+            totalBooks--;
+            printf("Book with ID %d removed successfully!\n", bookid);
+            break;
+        }
+    }
+    if (!bookFound) {
+        printf("Book with ID %d not found.\n", bookid);
+    }
+}
+
