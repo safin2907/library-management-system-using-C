@@ -1,11 +1,13 @@
+// Function to display the student menu
 void studentmenu() {
     int student_choice;
     int bookid; // Variable to hold the book ID entered by the user
 
-    printf("\n-----Student Menu-----\n\n");
+    printf("\n\n-----Student Menu-----\n\n");
     printf("1. View book list\n");
     printf("2. Check out\n");
     printf("3. Check in\n");
+    printf("4. Sign out\n");
 
     printf("Enter your choice: ");
     scanf("%d", &student_choice);
@@ -19,10 +21,12 @@ void studentmenu() {
             checkout(bookid); // Pass the book ID to the checkout function
             break;
         case 3:
-            printf("Enter Book ID to check in: ");
+            printf("1 - Demons - Fyodor Destoevsky\n2 - The Castle - Franz Kafka\n3 - AGGTM - Holly Jackson\n4 - After Dark - Haruki Murakami\n5 - The Midnight Library - Matt Hagis\n");
             scanf("%d", &bookid);
             checkin(bookid); // Pass the book ID to the checkin function
             break;
+        case 4:
+            signout();
         default:
             printf("Invalid choice!\n");
     }
