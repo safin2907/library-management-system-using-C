@@ -41,3 +41,17 @@ book books[] = {
     {4, "After Dark", "Haruki Murakami", 1},
     {5, "The Midnight Library", "Matt Hagis", 1}
 };
+
+// Main function
+int main() {
+    printf("*             *           *       *           *             *\n");
+    printf("|             |           |       |   *..*  *        *\n");
+    printf("*             *           *       *           *\n");
+    printf("|             |           *.\n");
+    printf("* .\n");
+    printf("*.           | .  .\n");
+    printf("                   .*\n");
+    login();
+    return 0;
+}
+
