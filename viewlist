@@ -1,0 +1,40 @@
+int totalBooks = 5;  // Assuming some books are already added
+typedef struct { int id; char title[100]; char author[100]; int isAvailable; } book;
+
+book books[] = {
+    {1, "q", "q", 1},
+    {2, "The Castle", "Franz Kafka", 1},
+    {3, "AGGTM", "Holly Jackson", 1},
+    {4, "After Dark", "Haruki Murakami", 1},
+    {5, "The Midnight Library", "Matt Hagis", 1}
+};
+
+void viewlist() {
+    printf("\nAvailable Books:\n");
+    printf("%-5s %-30s %-30s %-10s\n", "ID", "Title", "Author", "Status");
+    printf("---------------------------------------------------------------\n");
+    for (int i = 0; i < totalBooks; i++) {
+        printf("%-5d %-30s %-30s %-10s\n", books[i].id, books[i].title, books[i].author, books[i].isAvailable ? "Available" : "Checked Out");
+    }
+
+    int check_choice;
+    printf("\nChoose an option:\n1. Check out a book\n2. Check in a book\n3. Return to Student Menu\nEnter your choice: ");
+    scanf("%d", &check_choice);
+
+    int bookid; // Variable to store the book ID
+    switch(check_choice) {
+        case 1:
+            checkout(bookid);
+            break;
+        case 2:
+            printf("Enter Book ID to check in: ");
+            scanf("%d", &bookid);
+            checkin(bookid);
+            break;
+        case 3:
+            studentmenu();
+            break;
+        default:
+            printf("Invalid choice. Please try again.\n");
+    }
+}
