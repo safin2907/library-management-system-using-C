@@ -1,41 +1,27 @@
-// Function to handle student access
-void student() {
-    char studentID[50];
-
-    printf("\n-----Student Login-----\n\n");
-    printf("Enter Student ID: ");
-    scanf("%s", studentID);
-
-    // Assuming any non-empty input is valid for simplicity
-    if (strlen(studentID) > 0) {
-        printf("\nAccess Granted! Welcome, Student %s!\n", studentID);
-        studentmenu();
-    } else {
-        printf("\nAccess Denied! Invalid Student ID.\n");
-    }
-}
-
-// Function to display the student menu
 void studentmenu() {
     int student_choice;
+    int bookid; // Variable to hold the book ID entered by the user
 
     printf("\n-----Student Menu-----\n\n");
-    printf("1. View Personal Record\n");
-    printf("2. Update Personal Information\n");
-    printf("3. Logout\n");
+    printf("1. View book list\n");
+    printf("2. Check out\n");
+    printf("3. Check in\n");
 
     printf("Enter your choice: ");
     scanf("%d", &student_choice);
 
     switch (student_choice) {
         case 1:
-            printf("Viewing personal record...\n");
+            viewlist();
             break;
         case 2:
-            printf("Updating personal information...\n");
+            printf("1 - Demons - Fyodor Destoevsky\n2 - The Castle - Franz Kafka\n3 - AGGTM - Holly Jackson\n4 - After Dark - Haruki Murakami\n5 - The Midnight Library - Matt Hagis\n");
+            checkout(bookid); // Pass the book ID to the checkout function
             break;
         case 3:
-            signout();
+            printf("Enter Book ID to check in: ");
+            scanf("%d", &bookid);
+            checkin(bookid); // Pass the book ID to the checkin function
             break;
         default:
             printf("Invalid choice!\n");
