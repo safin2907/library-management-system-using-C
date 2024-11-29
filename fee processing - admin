@@ -1,0 +1,19 @@
+// Function to process the fee payment
+void feeprocess() {
+    int transactionId;
+    double amount;
+
+    printf("Enter Transaction ID: ");
+    scanf("%d", &transactionId);
+    
+    printf("Enter the amount paid: ");
+    scanf("%lf", &amount);
+
+    // Process the transaction
+    totalTransactions++;
+    totalRevenue += amount;
+
+    printf("Transaction ID %d has been processed. Fee has been paid.\n", transactionId);
+    printf("Total number of fees paid: %d\n", totalTransactions);
+    printf("Total revenue made by the library: %.2f tk\n", totalRevenue);
+}
