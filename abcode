@@ -218,7 +218,7 @@ void removebook(int bookid) {
 }
 
 //Function for checkout
-void checkout(bookid) {
+void checkout(int bookid) {
     int book_choice;
     char title[100];
     char author[100];
@@ -324,7 +324,6 @@ void checkout(bookid) {
         checkout(bookid);
     } else {
         printf("\nExiting checkout process.\n");
-        studentmenu();
     }
 }
 
@@ -467,8 +466,8 @@ void student() {
 void adminmenu() {
     int admin_choice;
 
-    do {
-        printf("\n\n-----Admin Menu-----\n\n");
+    while (1) {
+        printf("\n-----Admin Menu-----\n\n");
         printf("1. View All Records\n");
         printf("2. Process Fee Payment\n");
         printf("3. Logout\n");
@@ -485,26 +484,30 @@ void adminmenu() {
                 scanf("%d", &choice_after_records);
                 if (choice_after_records == 1) {
                     feeprocess();
-                } else {
+                } else if (choice_after_records == 2) {
                     signout();
+                    return;
+                } else {
+                    printf("Invalid choice! Returning to main menu.\n");
                 }
                 break;
             case 2:
-                feeprocess();
+                feeprocess(); 
                 printf("\nWould you like to:\n1. Logout\n2. Return to Main Menu\nEnter your choice: ");
                 int choice_after_fee;
                 scanf("%d", &choice_after_fee);
                 if (choice_after_fee == 1) {
                     signout();
+                    return; 
                 }
                 break;
             case 3:
                 signout();
-                break;
+                return;
             default:
                 printf("Invalid choice! Please try again.\n");
         }
-    } while (admin_choice != 3);
+    }
 }
 
 
@@ -535,7 +538,7 @@ void studentmenu() {
                 int after_search_choice;
                 scanf("%d", &after_search_choice);
                 if (after_search_choice == 1) {
-                    continue; 
+                    continue;
                 } else if (after_search_choice == 2) {
                     signout();
                     return;
