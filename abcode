@@ -18,6 +18,7 @@ void student();
 void adminmenu();
 void studentmenu();
 void viewlist();
+void namesearch();
 void addbook(int id, char *title, char *author, int isAvailable);
 void removebook(int bookid);
 void checkout(int bookid);
@@ -155,6 +156,30 @@ void viewlist() {
             break;
         default:
             printf("Invalid choice. Please try again.\n");
+    }
+}
+
+//funtion for searching books
+void namesearch() {
+    char searchQuery[100];
+    int found = 0;
+
+    printf("Enter the book title to search: ");
+    scanf(" %[^\n]%*c", searchQuery);
+
+    printf("\nSearch Results:\n");
+    printf("%-5s %-30s %-30s %-10s\n", "ID", "Title", "Author", "Status");
+    printf("---------------------------------------------------------------\n");
+
+    for (int i = 0; i < totalBooks; i++) {
+        if (strstr(books[i].title, searchQuery) != NULL) {
+            printf("%-5d %-30s %-30s %-10s\n", books[i].id, books[i].title, books[i].author, books[i].isAvailable ? "Available" : "Checked Out");
+            found = 1;
+        }
+    }
+
+    if (!found) {
+        printf("No books found with the title '%s'.\n", searchQuery);
     }
 }
 
@@ -488,33 +513,52 @@ void studentmenu() {
     int student_choice;
     int bookid;
 
-    printf("\n\n-----Student Menu-----\n\n");
-    printf("1. View book list\n");
-    printf("2. Check out\n");
-    printf("3. Check in\n");
-    printf("4. Sign out\n");
+    do {
+        printf("\n\n-----Student Menu-----\n\n");
+        printf("1. View book list\n");
+        printf("2. Search book\n");
+        printf("3. Check out\n");
+        printf("4. Check in\n");
+        printf("5. Sign out\n");
 
-    printf("Enter your choice: ");
-    scanf("%d", &student_choice);
+        printf("Enter your choice: ");
+        scanf("%d", &student_choice);
 
-    switch (student_choice) {
-        case 1:
-            viewlist();
-            break;
-        case 2:
-            printf("1 - Demons - Fyodor Destoevsky\n2 - The Castle - Franz Kafka\n3 - AGGTM - Holly Jackson\n4 - After Dark - Haruki Murakami\n5 - The Midnight Library - Matt Hagis\n");
-            checkout(bookid); // Pass the book ID to the checkout function
-            break;
-        case 3:
-            printf("1 - Demons - Fyodor Destoevsky\n2 - The Castle - Franz Kafka\n3 - AGGTM - Holly Jackson\n4 - After Dark - Haruki Murakami\n5 - The Midnight Library - Matt Hagis\n");
-            scanf("%d", &bookid);
-            checkin(bookid); // Pass the book ID to the checkin function
-            break;
-        case 4:
-            signout();
-        default:
-            printf("Invalid choice!\n");
-    }
+        switch (student_choice) {
+            case 1:
+                printf("1 - Demons - Fyodor Dostoevsky\n2 - The Castle - Franz Kafka\n3 - AGGTM - Holly Jackson\n4 - After Dark - Haruki Murakami\n5 - The Midnight Library - Matt Haig\n");
+                viewlist();
+                break;
+            case 2:
+                namesearch();
+                printf("\nWould you like to:\n1. Return to Main Menu\n2. Sign out\nEnter your choice: ");
+                int after_search_choice;
+                scanf("%d", &after_search_choice);
+                if (after_search_choice == 1) {
+                    continue; 
+                } else if (after_search_choice == 2) {
+                    signout();
+                    return;
+                } else {
+                    printf("Invalid choice! Returning to main menu.\n");
+                }
+                break;
+            case 3:
+                printf("1 - Demons - Fyodor Dostoevsky\n2 - The Castle - Franz Kafka\n3 - AGGTM - Holly Jackson\n4 - After Dark - Haruki Murakami\n5 - The Midnight Library - Matt Haig\n");
+                checkout(bookid);
+                break;
+            case 4:
+                printf("1 - Demons - Fyodor Dostoevsky\n2 - The Castle - Franz Kafka\n3 - AGGTM - Holly Jackson\n4 - After Dark - Haruki Murakami\n5 - The Midnight Library - Matt Haig\n");
+                scanf("%d", &bookid);
+                checkin(bookid);
+                break;
+            case 5:
+                signout();
+                return;
+            default:
+                printf("Invalid choice!\n");
+        }
+    } while (student_choice != 5); // Keep showing the menu until the student chooses to sign out
 }
 
 // Main function
