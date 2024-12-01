@@ -1,3 +1,4 @@
+// Function to display the student menu
 void studentmenu() {
     int student_choice;
     int bookid;
@@ -20,17 +21,6 @@ void studentmenu() {
                 break;
             case 2:
                 namesearch();
-                printf("\nWould you like to:\n1. Return to Main Menu\n2. Sign out\nEnter your choice: ");
-                int after_search_choice;
-                scanf("%d", &after_search_choice);
-                if (after_search_choice == 1) {
-                    continue; 
-                } else if (after_search_choice == 2) {
-                    signout();
-                    return;
-                } else {
-                    printf("Invalid choice! Returning to main menu.\n");
-                }
                 break;
             case 3:
                 printf("1 - Demons - Fyodor Dostoevsky\n2 - The Castle - Franz Kafka\n3 - AGGTM - Holly Jackson\n4 - After Dark - Haruki Murakami\n5 - The Midnight Library - Matt Haig\n");
@@ -47,5 +37,18 @@ void studentmenu() {
             default:
                 printf("Invalid choice!\n");
         }
-    } while (student_choice != 5); // Keep showing the menu until the student chooses to sign out
+
+        printf("\nWould you like to:\n1. Return to Main Menu\n2. Sign out\nEnter your choice: ");
+        int after_action_choice;
+        scanf("%d", &after_action_choice);
+        if (after_action_choice == 1) {
+            continue;
+        } else if (after_action_choice == 2) {
+            signout();
+            return;
+        } else {
+            printf("Invalid choice! Returning to main menu.\n");
+        }
+
+    } while (student_choice != 5);
 }
