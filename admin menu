@@ -1,47 +1,55 @@
-void admin() {
-    char username[50], password[50];
-
-    printf("\n-----Admin Login-----\n\n");
-    printf("Enter Username: ");
-    scanf("%s", username);
-    printf("Enter Password: ");
-    scanf("%s", password);
-
-    // Hardcoded credentials for simplicity
-    if (strcmp(username, "admin") == 0 && strcmp(password, "admin123") == 0) {
-        printf("\nAccess Granted!\n");
-        adminmenu();
-    } else {
-        printf("\nAccess Denied! Invalid credentials.\n");
-    }
-}
-
+// Function to display the admin menu
 void adminmenu() {
     int admin_choice;
 
-    printf("\n-----Admin Menu-----\n\n");
-    printf("1. View All Records\n");
-    printf("2. Add New Record\n");
-    printf("3. Delete Record\n");
-    printf("4. Logout\n");
+    while (1) {
+        printf("\n-----Admin Menu-----\n\n");
+        printf("1. View All Records\n");
+        printf("2. Process Fee Payment\n");
+        printf("3. Add Book to List\n");
+        printf("4. Remove Book from List\n");
+        printf("5. View Fee History\n");
+        printf("6. Logout\n");
 
-    printf("Enter your choice: ");
-    scanf("%d", &admin_choice);
+        printf("Enter your choice: ");
+        scanf("%d", &admin_choice);
 
-    switch (admin_choice) {
-        case 1:
-            printf("Viewing all records...\n");
-            break;
-        case 2:
-            printf("Adding new record...\n");
-            break;
-        case 3:
-            printf("Deleting record...\n");
-            break;
-        case 4:
+        switch (admin_choice) {
+            case 1:
+                printf("\n\n----RECORDS----\n\n");
+                for (int i = 0; i < totalBooks; i++) {
+                    printf("%d - %s - %s\n", books[i].id, books[i].title, books[i].author);
+                }
+                break;
+            case 2:
+                feeprocess();
+                break;
+            case 3:
+                addtolist();
+                break;
+            case 4:
+                removefromlist();
+                break;
+            case 5:
+                feehistory();
+                break;
+            case 6:
+                signout();
+                return;
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+
+        printf("\nWould you like to:\n1. Return to Main Menu\n2. Sign out\nEnter your choice: ");
+        int after_action_choice;
+        scanf("%d", &after_action_choice);
+        if (after_action_choice == 1) {
+            continue;
+        } else if (after_action_choice == 2) {
             signout();
-            break;
-        default:
-            printf("Invalid choice!\n");
+            return;
+        } else {
+            printf("Invalid choice! Returning to main menu.\n");
+        }
     }
 }
