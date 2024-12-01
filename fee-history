@@ -1,3 +1,8 @@
+// Function to add fee to history 
+void addFeeToHistory(double fee) { 
+totalDueFees += fee; 
+printf("Fee of %.2f tk added to history. Total due fees: %.2f tk\n", fee, totalDueFees); 
+}
 void feehistory() {
     printf("\n-----Fee History-----\n\n");
     printf("Total due fees: %.2f tk\n", totalDueFees);
