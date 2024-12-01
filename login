@@ -79,5 +79,19 @@ void signin(char* signupUsername, char* signupPassword) {
 
 // Function to sign out the user
 void signout() {
-    printf("\nYou have been signed out successfully.\n");
+    printf("You have successfully signed out.\n");
+
+    printf("\nWould you like to:\n1. Go back to Login\n2. Close the program\nEnter your choice: ");
+    int choice;
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        login();
+    } else if (choice == 2) {
+        printf("Closing the program. Goodbye!\n");
+        exit(0);
+    } else {
+        printf("Invalid choice! Closing the program. Goodbye!\n");
+        exit(0);
+    }
 }
