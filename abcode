@@ -25,16 +25,24 @@ void checkout(int bookid);
 int calculatetime(struct tm checkOutDate, struct tm checkInDate);
 void calculatefee();
 void checkin(int bookid);
+void addtolist();
+void removefromlist();
+void feeprocess();
+void addFeeToHistory(double fee);
+void feehistory();
+
 
 const char *filename = "users.txt";
 
 // Global variables
 int totalBooks = 5;
-typedef struct { int id; char title[100]; char author[100]; int isAvailable; } book;
-int totalTransactions = 0;
-double totalRevenue = 0.0;
+typedef struct {
+    int id;
+    char title[100];
+    char author[100];
+    int isAvailable;
+} book;
 
-//booklist
 book books[] = {
     {1, "q", "q", 1},
     {2, "The Castle", "Franz Kafka", 1},
@@ -42,6 +50,11 @@ book books[] = {
     {4, "After Dark", "Haruki Murakami", 1},
     {5, "The Midnight Library", "Matt Hagis", 1}
 };
+
+int totalTransactions = 0;
+double totalRevenue = 0.0;
+double totalDueFees = 0.0;
+
 
 // Function for login
 void login() {
@@ -376,7 +389,8 @@ void calculatefee() {
     if (days > ALLOWED_DAYS) {
         int fine = (days - ALLOWED_DAYS) * DAILY_FINE;
         printf("Late fee: %d tk\n", fine);
-        printf("please pay in the accounts center and provide admin with receipt\n");
+        addFeeToHistory(fine);
+        printf("Please pay in the accounts center and provide the admin with a receipt.\n");
     } else {
         printf("No late fee. Returned within the allowed period.\n");
     }
@@ -427,6 +441,84 @@ void feeprocess() {
     printf("Total revenue made by the library: %.2f tk\n", totalRevenue);
 }
 
+// Function to add fee to history
+void addFeeToHistory(double fee) {
+totalDueFees += fee;
+printf("Fee of %.2f tk added to history. Total due fees: %.2f tk\n", fee, totalDueFees);
+}
+
+//function for fee update
+void feehistory() {
+    printf("\n-----Fee History-----\n\n");
+    printf("Total due fees: %.2f tk\n", totalDueFees);
+
+    printf("Enter the amount to process for due fees: ");
+    double amount;
+    scanf("%lf", &amount);
+
+    if (amount <= totalDueFees) {
+        totalDueFees -= amount;
+        totalTransactions++;
+        totalRevenue += amount;
+        printf("Processed fee of %.2f tk. Remaining due fees: %.2f tk\n", amount, totalDueFees);
+    } else {
+        printf("Insufficient due fees. Total due fees available: %.2f tk\n", totalDueFees);
+    }
+
+    printf("Total number of fees processed: %d\n", totalTransactions);
+    printf("Total revenue made by the library: %.2f tk\n", totalRevenue);
+}
+
+// Function to add books to the list
+void addtolist() {
+    if (totalBooks >= MAX_BOOKS) {
+        printf("Book list is full!\n");
+        return;
+    }
+
+    int id;
+    char title[100];
+    char author[100];
+
+    printf("Enter Book ID: ");
+    scanf("%d", &id);
+    printf("Enter Book Title: ");
+    scanf(" %[^\n]%*c", title);
+    printf("Enter Book Author: ");
+    scanf(" %[^\n]%*c", author);
+
+    books[totalBooks].id = id;
+    strcpy(books[totalBooks].title, title);
+    strcpy(books[totalBooks].author, author);
+    books[totalBooks].isAvailable = 1;
+    totalBooks++;
+
+    printf("Book '%s' added successfully!\n", title);
+}
+
+// Function to remove books from the list
+void removefromlist() {
+    int id;
+    printf("Enter Book ID to remove: ");
+    scanf("%d", &id);
+
+    int bookFound = 0;
+    for (int i = 0; i < totalBooks; i++) {
+        if (books[i].id == id) {
+            bookFound = 1;
+            for (int j = i; j < totalBooks - 1; j++) {
+                books[j] = books[j + 1];
+            }
+            totalBooks--;
+            printf("Book with ID %d removed successfully!\n", id);
+            break;
+        }
+    }
+
+    if (!bookFound) {
+        printf("Book with ID %d not found.\n", id);
+    }
+}
 
 // Function to handle admin access
 void admin() {
@@ -470,7 +562,10 @@ void adminmenu() {
         printf("\n-----Admin Menu-----\n\n");
         printf("1. View All Records\n");
         printf("2. Process Fee Payment\n");
-        printf("3. Logout\n");
+        printf("3. Add Book to List\n");
+        printf("4. Remove Book from List\n");
+        printf("5. View Fee History\n");
+        printf("6. Logout\n");
 
         printf("Enter your choice: ");
         scanf("%d", &admin_choice);
@@ -478,38 +573,42 @@ void adminmenu() {
         switch (admin_choice) {
             case 1:
                 printf("\n\n----RECORDS----\n\n");
-                printf("1 - Demons - Fyodor Dostoevsky\n2 - The Castle - Franz Kafka\n3 - AGGTM - Holly Jackson\n4 - After Dark - Haruki Murakami\n5 - The Midnight Library - Matt Haig\n");
-                printf("\nWould you like to:\n1. Process Fee Payment\n2. Logout\nEnter your choice: ");
-                int choice_after_records;
-                scanf("%d", &choice_after_records);
-                if (choice_after_records == 1) {
-                    feeprocess();
-                } else if (choice_after_records == 2) {
-                    signout();
-                    return;
-                } else {
-                    printf("Invalid choice! Returning to main menu.\n");
+                for (int i = 0; i < totalBooks; i++) {
+                    printf("%d - %s - %s\n", books[i].id, books[i].title, books[i].author);
                 }
                 break;
             case 2:
-                feeprocess(); 
-                printf("\nWould you like to:\n1. Logout\n2. Return to Main Menu\nEnter your choice: ");
-                int choice_after_fee;
-                scanf("%d", &choice_after_fee);
-                if (choice_after_fee == 1) {
-                    signout();
-                    return; 
-                }
+                feeprocess();
                 break;
             case 3:
+                addtolist();
+                break;
+            case 4:
+                removefromlist();
+                break;
+            case 5:
+                feehistory();
+                break;
+            case 6:
                 signout();
                 return;
             default:
                 printf("Invalid choice! Please try again.\n");
         }
+
+        printf("\nWould you like to:\n1. Return to Main Menu\n2. Sign out\nEnter your choice: ");
+        int after_action_choice;
+        scanf("%d", &after_action_choice);
+        if (after_action_choice == 1) {
+            continue;
+        } else if (after_action_choice == 2) {
+            signout();
+            return;
+        } else {
+            printf("Invalid choice! Returning to main menu.\n");
+        }
     }
 }
-
 
 // Function to display the student menu
 void studentmenu() {
@@ -534,17 +633,6 @@ void studentmenu() {
                 break;
             case 2:
                 namesearch();
-                printf("\nWould you like to:\n1. Return to Main Menu\n2. Sign out\nEnter your choice: ");
-                int after_search_choice;
-                scanf("%d", &after_search_choice);
-                if (after_search_choice == 1) {
-                    continue;
-                } else if (after_search_choice == 2) {
-                    signout();
-                    return;
-                } else {
-                    printf("Invalid choice! Returning to main menu.\n");
-                }
                 break;
             case 3:
                 printf("1 - Demons - Fyodor Dostoevsky\n2 - The Castle - Franz Kafka\n3 - AGGTM - Holly Jackson\n4 - After Dark - Haruki Murakami\n5 - The Midnight Library - Matt Haig\n");
@@ -561,7 +649,20 @@ void studentmenu() {
             default:
                 printf("Invalid choice!\n");
         }
-    } while (student_choice != 5); // Keep showing the menu until the student chooses to sign out
+
+        printf("\nWould you like to:\n1. Return to Main Menu\n2. Sign out\nEnter your choice: ");
+        int after_action_choice;
+        scanf("%d", &after_action_choice);
+        if (after_action_choice == 1) {
+            continue;
+        } else if (after_action_choice == 2) {
+            signout();
+            return;
+        } else {
+            printf("Invalid choice! Returning to main menu.\n");
+        }
+
+    } while (student_choice != 5);
 }
 
 // Main function
